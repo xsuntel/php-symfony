@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Symfony2PluginSettings">
+    <option name="pathToTranslation" value="app/translations" />
+    <option name="directoryToWeb" value="app/public" />
+    <option name="directoryToApp" value="app/src" />
+    <option name="pluginEnabled" value="true" />
+    <option name="twigBundleNamespaceSupport" value="true" />
+    <option name="dismissYamlSchemaNotification" value="true" />
+    <option name="profilerCsvPath" value="" />
+    <option name="profilerHttpEnabled" value="true" />
+    <option name="profilerHttpUrl" value="https://127.0.0.1:8002" />
+    <option name="twigNamespaces">
+      <list>
+        <twig_namespace custom="true" namespaceType="ADD_PATH" path="app/templates" />
+      </list>
+    </option>
+  </component>
+</project>

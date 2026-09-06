@@ -1,0 +1,134 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# GitHub Actions - CI (Quality Gate)
+# ----------------------------------------------------------------------------------------------------------------------
+# Deployment is handled by the GCP Cloud Run shell scripts. This workflow is a quality gate only,
+# enforcing the merge criteria from CLAUDE.md — PHP-CS-Fixer / PHPStan (level 8) / PHPUnit / composer audit.
+# No service containers (PostgreSQL/Redis/RabbitMQ) are used. The values required for the
+# cache:warmup container compile are satisfied by the dummy values in env below (no real connections).
+# The tests job currently only has tests/Unit/ (pure unit tests, no DB/network access), so no service
+# container is needed. Once tests/Integration/ and tests/Functional/ are added, add real PostgreSQL/Redis
+# service containers and a migration step to this job (see the CLAUDE.md testing strategy).
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Cancel in-progress runs for the same ref — save runner minutes on rapid pushes
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Symfony app kernel boot / container compile requires these to resolve app/.env expressions.
+  # Dummy values only — no job connects to these services.
+  APP_ENV: dev
+  APP_DEBUG: 1
+  POSTGRES_USER: ci
+  POSTGRES_PASSWORD: ci
+  POSTGRES_HOST: 127.0.0.1
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: ci
+  POSTGRES_VERSION: 16
+  RABBITMQ_USER: ci
+  RABBITMQ_PASSWORD: ci
+  RABBITMQ_HOST: 127.0.0.1
+  RABBITMQ_PORT: 5672
+  REDIS_HOST: 127.0.0.1
+  REDIS_PORT: 6379
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  code-style:
+    name: PHP-CS-Fixer (dry-run)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: bcmath, ctype, iconv, intl, mbstring, pdo_pgsql, redis, amqp, opcache
+          coverage: none
+          tools: none
+
+      - name: Install dependencies
+        run: composer install --no-scripts --prefer-dist --no-progress
+
+      - name: Check code style
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+  static-analysis:
+    name: PHPStan (level 8)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: bcmath, ctype, iconv, intl, mbstring, pdo_pgsql, redis, amqp, opcache
+          coverage: none
+          tools: none
+
+      - name: Install dependencies
+        run: composer install --no-scripts --prefer-dist --no-progress
+
+      # PHPStan reads var/cache/dev/App_KernelDevDebugContainer.xml (see app/phpstan.dist.neon)
+      - name: Warm up container
+        run: bin/console cache:warmup --env=dev
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --no-progress
+
+  security:
+    name: Composer audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: bcmath, ctype, iconv, intl, mbstring, pdo_pgsql, redis, amqp, opcache
+          coverage: none
+          tools: none
+
+      - name: Install dependencies
+        run: composer install --no-scripts --prefer-dist --no-progress
+
+      - name: Audit dependencies
+        run: composer audit
+
+  tests:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: bcmath, ctype, iconv, intl, mbstring, pdo_pgsql, redis, amqp, opcache
+          coverage: none
+          tools: none
+
+      - name: Install dependencies
+        run: composer install --no-scripts --prefer-dist --no-progress
+
+      # phpunit.xml.dist forces APP_ENV=test; the current suite is tests/Unit/ only,
+      # so no PostgreSQL/Redis service container or migration step is required here.
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit

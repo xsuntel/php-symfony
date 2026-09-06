@@ -1,0 +1,43 @@
+{
+  "recommendations": [
+    "anthropic.claude-code",
+
+    "symfony.language-tools",
+    "bradlc.vscode-tailwindcss",
+
+    "xdebug.php-debug",
+    "xdebug.php-pack",
+    "bmewburn.vscode-intelephense-client",
+    "sanderronde.phpstan-vscode",
+
+    "redis.redis-for-vscode",
+    "ms-ossdata.vscode-pgsql",
+    "ms-azuretools.vscode-containers",
+    "ms-azuretools.vscode-docker",
+
+    "mikestead.dotenv",
+    "redhat.vscode-yaml",
+    "esbenp.prettier-vscode",
+    "foxundermoon.shell-format",
+    "timonwong.shellcheck",
+    "davidanson.vscode-markdownlint",
+
+    "hediet.vscode-drawio",
+    "github.vscode-pull-request-github",
+
+    "donjayamanne.githistory"
+  ],
+  "unwantedRecommendations": [
+    "formulahendry.auto-close-tag",
+    "junstyle.php-cs-fixer",
+    "zobo.php-intellisense",
+    "dbaeumer.vscode-eslint",
+    "thenouillet.symfony-vscode",
+    "splashmich.symfony-vscode-fixed",
+    "sanderverschoor.vscode-symfony-ux-twig-component",
+    "stanislav.vscode-twig",
+    "mblode.twig-language-2",
+    "marcoroth.stimulus-lsp",
+    "formulahendry.code-runner"
+  ]
+}

@@ -1,0 +1,295 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "App - Console - Assets",
+      "type": "shell",
+      "command": "./scripts/base/app/symfony/assets.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Console - Cache",
+      "type": "shell",
+      "command": "./scripts/base/app/symfony/cache.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Console - Database",
+      "type": "shell",
+      "command": "./scripts/base/app/symfony/database.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Console - Message",
+      "type": "shell",
+      "command": "./scripts/base/app/symfony/scheduler.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Console - Cache Warmup",
+      "type": "shell",
+      "command": "php bin/console cache:warmup --env=dev",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Quality - PHPStan",
+      "type": "shell",
+      "command": "vendor/bin/phpstan analyse",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Quality - PHPStan (Problems)",
+      "type": "shell",
+      "command": "vendor/bin/phpstan analyse --no-progress --error-format=raw",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": {
+        "owner": "phpstan",
+        "source": "phpstan",
+        "fileLocation": "absolute",
+        "pattern": {
+          "regexp": "^(.+):(\\d+):(.+)$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        }
+      }
+    },
+    {
+      "label": "App - Quality - PHP-CS-Fixer",
+      "type": "shell",
+      "command": "vendor/bin/php-cs-fixer fix",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Quality - PHP-CS-Fixer (Check)",
+      "type": "shell",
+      "command": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Test - PHPUnit",
+      "type": "shell",
+      "command": "vendor/bin/phpunit",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Tutorial - Symfony Framework",
+      "type": "shell",
+      "command": "./scripts/tools/ide/tutorial.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker - Container - App - Deploy",
+      "type": "shell",
+      "command": "./scripts/containers/prod/deploy.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Utility - Git - Tasks - Start working",
+      "type": "shell",
+      "command": "./scripts/base/utility/git/tasks/start.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Utility - Git - Tasks - Stop working",
+      "type": "shell",
+      "command": "./scripts/base/utility/git/tasks/stop.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Utility - Git - Branch - Clear",
+      "type": "shell",
+      "command": "./scripts/base/utility/git/branch/clear.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "VM - Linux - Ubuntu - Deploy",
+      "type": "shell",
+      "command": "./scripts/deploy/dev/linux/ubuntu/deploy.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "VM - Linux - Ubuntu - Status",
+      "type": "shell",
+      "command": "./scripts/deploy/dev/linux/ubuntu/status.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "VM - Mac - OS - Deploy",
+      "type": "shell",
+      "command": "./scripts/deploy/dev/mac/os/deploy.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "VM - Mac - OS - Status",
+      "type": "shell",
+      "command": "./scripts/deploy/dev/mac/os/status.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "VM - Windows - WSL - Deploy",
+      "type": "shell",
+      "command": "./scripts/deploy/dev/windows/wsl/deploy.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "VM - Windows - WSL - Status",
+      "type": "shell",
+      "command": "./scripts/deploy/dev/windows/wsl/status.sh",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "App - Security - Composer Audit",
+      "type": "shell",
+      "command": "composer audit",
+      "options": {
+        "cwd": "${workspaceFolder}/app"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Utility - Shell - ShellCheck",
+      "type": "shell",
+      "command": "shellcheck --external-sources --rcfile=scripts/base/.shellcheckrc $(find scripts -type f -name '*.sh')",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

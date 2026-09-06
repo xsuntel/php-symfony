@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "autoMemoryEnabled": true,
+  "autoUpdatesChannel": "stable",
+  "cleanupPeriodDays": 30,
+  "defaultShell": "bash",
+  "effortLevel": "high",
+  "outputStyle": "abstract-english-style",
+  "env": {
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "0",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "32768",
+    "CLAUDE_CODE_USE_POWERSHELL_TOOL": "0",
+    "MAX_MCP_OUTPUT_TOKENS": "25000",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "STATUSLINE_CHECK_UPDATES": "true",
+    "EDITOR": "code --wait"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/pre-tool-use/agent-roster-guard.sh",
+            "timeout": 10,
+            "statusMessage": "Checking orchestrator roster..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use/app-javascript-stimulus-guard.sh",
+            "timeout": 15,
+            "statusMessage": "Checking JavaScript quality rules..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use/app-php-lint.sh",
+            "timeout": 15,
+            "statusMessage": "Running php -l..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use/app-php-cs-fixer.sh",
+            "timeout": 30,
+            "statusMessage": "Running php-cs-fixer..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use/app-twig-lint.sh",
+            "timeout": 60,
+            "statusMessage": "Running lint:twig..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use/utility-git-commit-draft.sh",
+            "timeout": 15,
+            "statusMessage": "Checking commit message draft..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-tool-use/utility-drawio-diagram-draft.sh",
+            "timeout": 20,
+            "statusMessage": "Checking draw.io draft..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/session-start/app-node_modules.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/session-start/app-toolchain-status.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "logout|prompt_input_exit|other",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/session-end/app-php-symfony-clear.sh",
+            "async": true,
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/session-end/app-javascript-stimulus-clear.sh",
+            "async": true,
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/stop/notify-complete.sh",
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/stop/app-php-symfony-gate.sh",
+            "asyncRewake": true,
+            "timeout": 600
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "${CLAUDE_PROJECT_DIR}/.claude/scripts/statusline.sh",
+    "padding": 0
+  },
+  "permissions": {
+    "defaultMode": "plan",
+    "ask": ["Bash(git push:*)"],
+    "allow": [
+      "Edit(.claude/tmp/**/*)",
+      "Edit(app/assets/**/*)",
+      "Edit(app/config/**/*)",
+      "Edit(app/public/**/*)",
+      "Edit(app/src/**/*)",
+      "Edit(app/templates/**/*)",
+      "Edit(app/migrations/**/*)",
+      "Edit(app/tests/**/*)",
+      "Edit(app/translations/**/*)",
+      "Bash(app/vendor/bin/*:*)",
+      "Edit(diagram/**/*)",
+      "Edit(scripts/**/*)",
+      "Bash(php:*)",
+      "Bash(python3:*)",
+      "Bash(composer:*)",
+      "Bash(git:*)",
+      "Bash(cd:*)",
+      "Bash(vendor/bin/*:*)",
+      "Bash(npm:*)",
+      "Bash(symfony:*)",
+      "WebFetch(domain:symfony.com)",
+      "WebFetch(domain:ux.symfony.com)",
+      "WebFetch(domain:api-platform.com)",
+      "WebFetch(domain:stimulus.hotwired.dev)",
+      "WebFetch(domain:tailwindcss.com)",
+      "WebFetch(domain:redis.io)",
+      "WebFetch(domain:www.postgresql.org)",
+      "WebFetch(domain:nginx.org)",
+      "WebFetch(domain:docs.docker.com)",
+      "WebFetch(domain:code.visualstudio.com)",
+      "WebFetch(domain:www.jetbrains.com)"
+    ],
+    "deny": [
+      "Edit(app/secrets/**/*)",
+      "Read(app/secrets/**/*)",
+      "Edit(app/.env)",
+      "Read(app/.env)",
+      "Edit(app/.env.*)",
+      "Read(app/.env.*)",
+      "Edit(.env.*)",
+      "Read(.env.*)",
+      "Edit(.gitignore)",
+      "Edit(app/config/jwt/**/*)",
+      "Read(app/config/jwt/**/*)",
+      "Edit(app/config/secrets/**/*)",
+      "Read(app/config/secrets/**/*)",
+      "Edit(app/auth.json)",
+      "Read(app/auth.json)",
+      "Read(.mcp.json)",
+      "Edit(.mcp.json)",
+      "Read(**/*.pem)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/*.key)",
+      "Read(**/*.crt)",
+      "Read(**/*.csr)",
+      "Read(**/*.der)",
+      "Read(**/*.jks)",
+      "Read(**/*.p7*)",
+      "Bash(sudo:*)",
+      "Bash(rm:*)",
+      "Bash(dd:*)",
+      "Bash(shred:*)",
+      "Bash(mkfs:*)",
+      "Bash(fdisk:*)",
+      "Bash(nc:*)",
+      "Bash(ncat:*)",
+      "Bash(useradd:*)",
+      "Bash(userdel:*)",
+      "Bash(passwd:*)"
+    ]
+  },
+  "attribution": {
+    "commit": ""
+  },
+  "theme": "dark"
+}

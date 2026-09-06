@@ -1,0 +1,52 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# ShellCheck project configuration (scripts/**)
+# ----------------------------------------------------------------------------------------------------------------------
+# SoT: .claude/output-styles/utility/shell-script/code-config-style.md  ·  .claude/rules/utility/shell-script/code-config-rule.md
+#
+# Principle: the disable= entries below are limited to the "structural false positives" that arise from this
+#            project's `source`-based modular architecture. Real defects (SC2086 missing quotes · SC2002 useless cat ·
+#            SC2009 ps|grep · SC2181 $? · SC2046, etc.) are not disabled — they are fixed directly in the scripts,
+#            so the quality gate is not weakened.
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Lint with the Bash dialect (project scripts use #!/bin/bash; the #!/bin/sh entrypoint defers to each file's shebang).
+shell=bash
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Disabled rules — structural false positives only (ShellCheck accumulates multiple disable= lines)
+# ----------------------------------------------------------------------------------------------------------------------
+
+# SC2034: library variables consumed by the sourcing parent → look "unused" to ShellCheck, which sees only the single file.
+disable=SC2034
+
+# SC2168: 'local' in a sourced sub-script executed outside a named function (e.g. base/_platform.sh · _project.sh).
+disable=SC2168
+
+# SC1091: the source path is dynamic (${PROJECT_PATH}/…), so it cannot be resolved at lint time.
+disable=SC1091
+
+# SC2155: declare+assign on one line (local X="$(cmd)") is allowed by project convention for readability.
+disable=SC2155
+
+# SC2024: sudo combined with output redirection (intentional — privilege escalation then file write in install scripts).
+disable=SC2024
+
+# NOTE: SC2225 ("cp has no destination", error severity) is NOT disabled globally — that would neutralize the cp
+#       missing-destination bug repository-wide. All 24 cp uses in scripts/** currently have a destination, so it
+#       never triggers. If a specific line yields a false positive, scope it narrowly with an inline
+#       `# shellcheck disable=SC2225` on that line.
+
+# ----------------------------------------------------------------------------------------------------------------------
+# External source tracking
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Follow sourced scripts to enable cross-file analysis, and resolve paths relative to each script's directory.
+external-sources=true
+source-path=SCRIPTDIR
+
+# ----------------------------------------------------------------------------------------------------------------------
+# (Optional) Enforce project convention — always brace variable expansions "${VAR}"
+# ----------------------------------------------------------------------------------------------------------------------
+# Enabling the below lets lint enforce the style SoT ("variable expansions are always double-quoted and braced").
+# It flags many existing $1 · $REPLY · $? etc., though — apply it only after a bulk cleanup (impacts the merge gate).
+# enable=require-variable-braces

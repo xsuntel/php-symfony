@@ -1,0 +1,117 @@
+{
+  "//": "프로젝트 코드 컨벤션 스니펫 — .claude/output-styles 및 CLAUDE.md 기준을 인코딩한다.",
+
+  "Symfony Service (final + strict_types + promotion)": {
+    "scope": "php",
+    "prefix": "sym-service",
+    "description": "declare(strict_types=1) + final class + readonly 생성자 프로퍼티 프로모션 서비스",
+    "body": [
+      "<?php",
+      "",
+      "declare(strict_types=1);",
+      "",
+      "namespace App\\\\Service${1};",
+      "",
+      "final class ${2:Name}Service",
+      "{",
+      "    public function __construct(",
+      "        private readonly ${3:DependencyInterface} \\$${4:dependency},",
+      "    ) {}",
+      "",
+      "    public function ${5:handle}(): void",
+      "    {",
+      "        $0",
+      "    }",
+      "}",
+      ""
+    ]
+  },
+
+  "Symfony Doctrine Entity": {
+    "scope": "php",
+    "prefix": "sym-entity",
+    "description": "declare(strict_types=1) + Doctrine ORM 속성 매핑 엔티티",
+    "body": [
+      "<?php",
+      "",
+      "declare(strict_types=1);",
+      "",
+      "namespace App\\\\Entity${1};",
+      "",
+      "use Doctrine\\\\ORM\\\\Mapping as ORM;",
+      "",
+      "#[ORM\\\\Entity(repositoryClass: ${2:Name}Repository::class)]",
+      "class ${2:Name}",
+      "{",
+      "    #[ORM\\\\Id]",
+      "    #[ORM\\\\GeneratedValue]",
+      "    #[ORM\\\\Column]",
+      "    private ?int \\$id = null;",
+      "",
+      "    public function getId(): ?int",
+      "    {",
+      "        return \\$this->id;",
+      "    }",
+      "$0",
+      "}",
+      ""
+    ]
+  },
+
+  "Symfony Messenger Command + Handler": {
+    "scope": "php",
+    "prefix": "sym-command",
+    "description": "readonly MessageCommand DTO + #[AsMessageHandler] 핸들러",
+    "body": [
+      "<?php",
+      "",
+      "declare(strict_types=1);",
+      "",
+      "namespace App\\\\MessageCommand${1};",
+      "",
+      "final readonly class ${2:Name}Command",
+      "{",
+      "    public function __construct(",
+      "        public ${3:int} \\$${4:id},",
+      "    ) {}",
+      "}",
+      "",
+      "// --- Handler (place in App\\\\MessageCommandHandler) ---",
+      "//",
+      "// use Symfony\\\\Component\\\\Messenger\\\\Attribute\\\\AsMessageHandler;",
+      "//",
+      "// #[AsMessageHandler]",
+      "// final class ${2:Name}CommandHandler",
+      "// {",
+      "//     public function __invoke(${2:Name}Command \\$command): void",
+      "//     {",
+      "//         $0",
+      "//     }",
+      "// }",
+      ""
+    ]
+  },
+
+  "Stimulus Controller": {
+    "scope": "javascript",
+    "prefix": "stim-controller",
+    "description": "static targets/values/classes 상단 선언 + connect/disconnect 생명주기",
+    "body": [
+      "import { Controller } from '@hotwired/stimulus'",
+      "",
+      "export default class extends Controller {",
+      "  static targets = ['${1:element}']",
+      "  static values = { ${2:open}: Boolean }",
+      "  static classes = ['${3:active}']",
+      "",
+      "  connect() {",
+      "    $0",
+      "  }",
+      "",
+      "  disconnect() {",
+      "  }",
+      "}",
+      ""
+    ]
+  }
+}

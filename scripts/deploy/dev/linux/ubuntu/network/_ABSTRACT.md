@@ -1,0 +1,184 @@
+# Dev Environment
+
+## Platform
+
+* Linux - Ubuntu Desktop
+
+### Network Devices
+
+#### WiFi
+
+* Update Kernel - /etc/modprobe.d/blacklist.conf
+
+```bash
+lsmod
+
+sudo vi /etc/modprobe.d/blacklist.conf
+~
+
+# Customize - Network - WiFi
+blacklist iwlwifi
+
+sudo dpkg-reconfigure linux-image-$(uname -r)
+```
+
+* Remove WiFi
+
+```bash
+sudo apt remove --purge wpasupplicant
+```
+
+#### Bluetooth
+
+* Check Mac Address
+
+```bash
+bluetoothctl
+
+devices
+```
+
+* Block Mac Address
+
+```bash
+bluetoothctl
+
+block XX:XX:XX:XX:XX:XX
+```
+
+* UnBlock Mac Address
+
+```bash
+bluetoothctl
+
+unblock XX:XX:XX:XX:XX:XX
+```
+
+* Disable Bluetooth
+
+```bash
+sudo systemctl disable bluetooth
+```
+
+##### Disable
+
+* Update Kernel - /etc/modprobe.d/blacklist.conf
+
+```bash
+lsmod
+
+sudo vi /etc/modprobe.d/blacklist.conf
+~
+
+# Customize - Bluetooth
+blacklist Bluetooth
+
+sudo dpkg-reconfigure linux-image-$(uname -r)
+```
+
+* Disable Bluetooth
+
+```bash
+sudo systemctl disable bluetooth
+```
+
+### Network Manager
+
+* Check [NetworkManager](https://manpages.ubuntu.com/manpages/noble/man5/NetworkManager.conf.5.html)
+
+```bash
+systemctl status NetworkManager
+```
+
+* Edit Interface
+
+```bash
+nm-connection-editor
+```
+
+```bash
+nmcli con status
+```
+
+```bash
+nmcli dev status
+
+nmcli dev show
+```
+
+```bash
+nmcli connection reload
+```
+
+* IP Address
+
+```bash
+ip route show
+
+ip addr show
+```
+
+### Firewall
+
+* Check status
+
+```bash
+sudo cat /etc/default/ufw
+```
+
+```bash
+sudo cat /etc/ufw/sysctl.conf
+```
+
+* Check status
+
+```bash
+sudo cat /etc/ufw/after.rules
+#
+# rules.input-after
+#
+# Rules that should be run after the ufw command line added rules. Custom
+# rules should be added to one of these chains:
+#   ufw-after-input
+#   ufw-after-output
+#   ufw-after-forward
+#
+
+# Don't delete these required lines, otherwise there will be errors
+*filter
+:ufw-after-input - [0:0]
+:ufw-after-output - [0:0]
+:ufw-after-forward - [0:0]
+# End required lines
+
+# don't log noisy services by default
+-A ufw-after-input -p udp --dport 137 -j ufw-skip-to-policy-input
+-A ufw-after-input -p udp --dport 138 -j ufw-skip-to-policy-input
+-A ufw-after-input -p tcp --dport 139 -j ufw-skip-to-policy-input
+-A ufw-after-input -p tcp --dport 445 -j ufw-skip-to-policy-input
+-A ufw-after-input -p udp --dport 67 -j ufw-skip-to-policy-input
+-A ufw-after-input -p udp --dport 68 -j ufw-skip-to-policy-input
+
+# don't log noisy broadcast
+-A ufw-after-input -m addrtype --dst-type BROADCAST -j ufw-skip-to-policy-input
+
+# don't delete the 'COMMIT' line or these rules won't be processed
+COMMIT
+```
+
+#### SSH
+
+```bash
+sudo vi ~/.ssh/config
+
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    TCPKeepAlive yes
+```
+
+```bash
+sudo vi /etc/ssh/sshd_config
+~
+PermitRootLogin no
+```

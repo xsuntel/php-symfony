@@ -1,0 +1,42 @@
+# .gitattributes
+# https://git-scm.com/docs/gitattributes
+
+# 1. 기본 줄바꿈 자동 정규화 (Unix LF)
+* text=auto eol=lf
+
+# 2. 소스 코드 줄바꿈 명시 (PSR-12 필수: LF)
+*.php text eol=lf
+*.twig text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.md text eol=lf
+
+# 3. Windows 전용 스크립트
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 4. 바이너리 에셋 (줄바꿈 변환 및 Git Diff 텍스트 처리 방지)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+
+# 5. Composer/Git Archive 아카이브 생성 시 개발 환경 파일 제외
+/.github export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.editorconfig export-ignore
+/.prettierrc.json export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/phpstan.neon export-ignore
+/phpunit.xml.dist export-ignore
+/tests export-ignore

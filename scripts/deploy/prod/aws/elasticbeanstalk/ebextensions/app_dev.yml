@@ -1,0 +1,19 @@
+branch-defaults:
+  master:
+    environment: dev-env
+environment-defaults:
+  prod-env:
+    branch: null
+    repository: null
+global:
+  application_name: symfony
+  default_ec2_keyname: Key-App
+  default_platform: arn:aws:elasticbeanstalk:ap-northeast-2::platform/PHP
+  default_region: ap-northeast-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  sc: git
+  workspace_type: Application

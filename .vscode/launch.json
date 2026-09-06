@@ -1,0 +1,43 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug for PHP",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      "log": false,
+      "stopOnEntry": false
+    },
+    {
+      "name": "Debug for PHP (Docker)",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      "log": false,
+      "stopOnEntry": false,
+      "pathMappings": {
+        "/var/www/app": "${workspaceFolder}/app"
+      }
+    },
+    {
+      "name": "Debug for Javascript",
+      "type": "chrome",
+      "request": "launch",
+      "url": "https://127.0.0.1:8002",
+      "webRoot": "${workspaceFolder}/app/public",
+      "sourceMaps": true,
+      "runtimeArgs": ["--ignore-certificate-errors"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug for Web App",
+      "configurations": ["Debug for PHP", "Debug for Javascript"]
+    },
+    {
+      "name": "Debug for Web App (Docker)",
+      "configurations": ["Debug for PHP (Docker)", "Debug for Javascript"]
+    }
+  ]
+}

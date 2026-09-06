@@ -1,0 +1,68 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Docker - Build Context                                                 https://docs.docker.com/build/concepts/context/
+# ----------------------------------------------------------------------------------------------------------------------
+# The build context is the repository root for BOTH surfaces:
+#   - scripts/containers/prod/Dockerfile        (docker build ... "${PROJECT_PATH}")
+#   - scripts/containers/dev/*/*/Dockerfile     (compose `context: .` + --project-directory <repo root>)
+# So this file must keep scripts/containers/** reachable while excluding everything else.
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Repository - Tooling & metadata
+# ----------------------------------------------------------------------------------------------------------------------
+.git
+.gitattributes
+.gitignore
+.github
+.idea
+.vscode
+.claude
+.mcp.json
+diagram
+tools
+
+# >>>> Deploy scripts are host-side only — the image never runs them
+scripts/deploy
+
+# >>>> Root documentation
+*.md
+
+# ----------------------------------------------------------------------------------------------------------------------
+# App - Secrets                                            https://symfony.com/doc/current/configuration.html#env-files
+# ----------------------------------------------------------------------------------------------------------------------
+# `composer dump-env prod` runs on the host during deploy.sh setBuild(), BEFORE docker build, and
+# compiles these into app/.env.local.php. The raw dotenv files must never reach an image layer.
+.env.app
+.env.dev
+.env.prod
+app/.env.local
+app/.env.*.local
+app/.env.test
+
+# ----------------------------------------------------------------------------------------------------------------------
+# App - Runtime artifacts                                       https://symfony.com/doc/current/deployment.html#b-c-d-e
+# ----------------------------------------------------------------------------------------------------------------------
+# The Dockerfile recreates var/{cache,log,sessions} with the correct owner and mode.
+app/var/cache
+app/var/log
+app/var/sessions
+app/var/tailwind
+
+# ----------------------------------------------------------------------------------------------------------------------
+# App - Development-only sources
+# ----------------------------------------------------------------------------------------------------------------------
+app/tests
+app/node_modules
+app/phpunit.xml.dist
+app/phpstan.dist.neon
+app/.php-cs-fixer.dist.php
+app/.php-cs-fixer.cache
+app/.editorconfig
+app/compose.yaml
+app/compose.override.yaml
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Noise
+# ----------------------------------------------------------------------------------------------------------------------
+**/.DS_Store
+**/*.log
+**/*.swp

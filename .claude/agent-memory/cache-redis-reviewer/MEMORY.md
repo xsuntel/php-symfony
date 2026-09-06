@@ -1,0 +1,1 @@
+# cache-redis-reviewer memory

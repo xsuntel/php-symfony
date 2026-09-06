@@ -1,0 +1,1 @@
+# message-rabbitmq-reviewer memory

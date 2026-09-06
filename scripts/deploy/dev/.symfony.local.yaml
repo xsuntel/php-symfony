@@ -1,0 +1,53 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Local Web Server                                                                          PATH : "${PROJECT_PATH}"/app
+# ----------------------------------------------------------------------------------------------------------------------
+listen-ip: 127.0.0.1
+
+http:
+  port: 8000
+  document_root: public/
+  passthru: index.php
+  #p12: ~/.config/symfony-cli/certs/default.p12
+  allow_http: true # Prevent auto-redirection from HTTP to HTTPS
+  no_tls: true # Use HTTP instead of HTTPS
+  daemon: true # Run the server in the background
+  use_gzip: true # Toggle GZIP compression
+  no_workers: false # Do not start workers
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Local Domains                                                https://symfony.com/doc/current/setup/symfony_server.html
+# ----------------------------------------------------------------------------------------------------------------------
+
+proxy:
+  enabled: false
+  tld: wip
+  domains:
+    - example.wip
+    - example2.wip
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Workers
+# ----------------------------------------------------------------------------------------------------------------------
+
+workers:
+  # >>>> Built-in Encore integration
+  #npm_encore_watch: ~
+
+  # >>>> Messenger consumer with file watching
+  #messenger_consume_async:
+  #    cmd: ['symfony', 'console', 'messenger:consume', 'async']
+  #    watch: ['config', 'src', 'templates', 'vendor/composer/installed.json']
+
+  # >>>> Custom commands
+  #build_spa:
+  #    cmd: ['npm', 'run', 'watch']
+
+  # >>>> Auto-start Docker Compose
+  #docker_compose: ~
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Environment Variables
+# ----------------------------------------------------------------------------------------------------------------------
+env:
+  APP_ENV: dev
+  APP_DEBUG: "1"

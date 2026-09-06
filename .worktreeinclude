@@ -1,0 +1,3 @@
+# Local environment
+app/.env
+app/.env.local

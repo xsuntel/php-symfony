@@ -1,0 +1,228 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Git - gitignore
+# ----------------------------------------------------------------------------------------------------------------------
+.claude/tmp
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Directory - app
+# ----------------------------------------------------------------------------------------------------------------------
+
+# >>>> asset-mapper
+app/assets/styles/app.tailwind.css
+app/assets/vendor
+app/bin/tailwindcss-linux-x64
+
+# >>>> app/config
+app/config/secrets/prod/prod.decrypt.private.php
+app/config/jwt/*.pem
+
+# >>>> app/migrations
+app/migrations
+
+# >>>> app/node_modules
+app/node_modules
+
+# >>>> app/public
+app/public/assets
+app/public/build
+app/public/bundles
+app/public/download
+app/public/var
+app/public/[0-9]
+app/public/*.meta
+app/public/*.meta.json
+app/symfony.lock
+
+# >>>> app/var
+app/var
+
+# >>>> app/vendor
+app/vendor
+
+app/.*.py
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+# >>>> app/.env.*.local
+app/.env.local
+app/.env.local.php
+app/.env.*.local
+
+# >>>> app/composer
+app/composer.phar
+app/composer.lock
+
+# >>>> app/package
+app/package.tar
+app/package-lock.json
+
+# >>>> app/node_modules
+app/npm-debug.log
+app/yarn-error.log
+
+# >>>> app/phpunit.*
+app/phpunit.xml
+app/.phpunit
+app/.phpunit.result.cache
+app/.phpunit.cache/
+
+# >>>> app/php-cs-fixer/shim
+app/.php-cs-fixer.php
+app/.php-cs-fixer.cache
+
+# >>>> app/phpstan
+app/phpstan.neon
+app/.phpstan-verify.neon
+
+# >>>> app/PHP - phing
+app/phing-latest.phar
+
+# >>>> app/*.log
+app/*.log
+
+# >>>> app/*.json
+app/webpack-stats.json
+
+# >>>> app/performance
+app/[0-9]
+app/*.meta
+app/*.meta.json
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Directory - diagram
+# ----------------------------------------------------------------------------------------------------------------------
+
+# >>>> Draw.io
+.*.drawio.dtmp
+.$*.drawio.bkp
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Directory - scripts
+# ----------------------------------------------------------------------------------------------------------------------
+
+# >>>> PHP - Local ENV files
+./.env.local
+./.env.local.php
+./.env.*.local
+
+# >>>> PHP - Composer
+./composer.phar
+./composer.lock
+
+# >>>> PHP - Package
+./package.tar
+./package.json
+./package-lock.json
+
+# >>>> PHP - node_modules
+npm-debug.log
+yarn-error.log
+
+# >>>> PHP - phing-latest.phar
+./phing-latest.phar
+./tools/ide/phing-latest.phar
+
+# >>>> PHP - PHP-CS-Fixer
+./.php-cs-fixer.php
+./.php-cs-fixer.cache
+./.php-cs-fixer.dist.php
+
+# >>>> PHP - PHPUnit
+./tests/.phpunit.result.cache
+.phpunit.result.cache
+/phpunit.xml
+
+# >>>> PHP - vendor
+./vendor
+
+# >>>> Docker - Desktop                                                  https://www.docker.com/products/docker-desktop/
+./docker-compose.env
+./docker-compose.yml
+./docker-compose.*.env
+./docker-compose.*.yml
+./Dockerfile
+
+# >>>> Python
+./.venv
+./venv
+./var
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Directory - tools - IDE - PhpStorm
+# ----------------------------------------------------------------------------------------------------------------------
+
+# >>>> IDE - PhpStorm                                                                https://www.jetbrains.com/phpstorm/
+
+# Project
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Cache
+.idea/$CACHE_FILE$
+.idea/**/contentModel.xml
+
+# Database
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# HTTP Client
+.idea/httpRequests/
+
+# Libraries
+.idea/**/gradle.xml
+.idea/**/libraries/
+
+# Symfony - Meta
+.phpstorm.meta.php/
+_ide_helper.php
+_ide_helper_models.php
+
+# Symfony - PHPUnit
+.idea/phpunit.xml
+.idea/php.xml
+
+# Plugin - AWS, Azure, Mongo
+.idea/**/aws.xml
+.idea/**/azureSettings.xml
+.idea/**/mongoSettings.xml
+.idea_modules
+.idea/replstate.xml
+.idea/sonarlint/
+.idea/**/sonarlint/
+.idea/**/sonarIssues.xml
+.idea/**/markdown-navigator.xml
+.idea/**/markdown-navigator-enh.xml
+.idea/**/markdown-navigator/
+.idea/codestream.xml
+
+# Etc...
+.idea/**/vcs.xml
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Directory - tools - IDE - VSCode
+# ----------------------------------------------------------------------------------------------------------------------
+
+# >>>> IDE - Visual Studio Code                                                            https://code.visualstudio.com
+
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history
+.ionide
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+.*.py

@@ -1,0 +1,45 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# GitHub - Dependabot
+# ----------------------------------------------------------------------------------------------------------------------
+# Following the CLAUDE.md "Dependency security — keep up to date" principle, this creates weekly update PRs.
+# Symfony app dependencies (app/composer.json) and CI workflow action versions are managed separately.
+
+version: 2
+updates:
+  # Composer — Symfony application dependencies
+  - package-ecosystem: composer
+    directory: /app
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - composer
+    commit-message:
+      prefix: chore
+      include: scope
+
+  # npm — AssetMapper/Tailwind frontend dependencies (app/package.json)
+  - package-ecosystem: npm
+    directory: /app
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - npm
+    commit-message:
+      prefix: chore
+      include: scope
+
+  # GitHub Actions — CI workflow action versions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: chore
